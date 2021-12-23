@@ -12,8 +12,9 @@ function App() {
 
   const onSubmitHandler = event => {
     event.preventDefault();
-    fetch(`https://openlibrary.org/search.json?author=${searchTerm}`)
-    .then(response => { 
+    fetch(`https://openlibrary.org/search.json?author=${searchTerm}`,
+      {mode: 'no-cors'})
+    .then(response => {
       return response.json(); })
     .then((data) => {
       console.log(data.numFound);
