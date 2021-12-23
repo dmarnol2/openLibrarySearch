@@ -8,14 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [books, setBooks] = useState([
-    {
-      first_published_year : '',
-      title: '',
-      cover_id: '',
-      url: ''
-    }
-  ]);
+  const [books, setBooks] = useState([]);
 
   const onSubmitHandler = event => {
     event.preventDefault();
