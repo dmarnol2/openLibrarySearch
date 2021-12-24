@@ -3,24 +3,12 @@ import {useState} from 'react';
 import './App.css';
 import Card from 'react-bootstrap/Card';
 import { CardGroup, Container, ListGroup, Row } from 'react-bootstrap';
+import BarChart from './BarChart';
 import "bootstrap/dist/css/bootstrap.min.css";
-// import Chart from "react-google-charts";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [books, setBooks] = useState([]);
-  const [imageStyles, setImageStyles] = useState({
-    transition: "all 1.5s",
-    transform: "scale(1)",
-    marginLeft: "300px"
- });   
-
-  const mouseHover = event => {
-    setImageStyles({
-      transform: "scale(2)",
-      marginLeft: "300px"
-  });
-  }
 
   const onSubmitHandler = event => {
     event.preventDefault();
@@ -49,7 +37,6 @@ function App() {
     setSearchTerm(event.target.value);
   }
 
-
   return (
     <div className='App'>
         <header className="App-header">
@@ -59,32 +46,32 @@ function App() {
           <button>search</button>
         </form>
         </header>
+        <BarChart/>
         <Container fluid className="App py-2 overflow-hidden">
           <Row className="card-example d-flex flex-row flex-nowrap overflow-auto">
 {/* <CardGroup> */}
       {books.map((book, i) => (
           <Card body outline color="dark" className="mx-2 my-2"
-            // border={variant.toLowerCase()}
             key={i}
           >
           <Card.Link href={book.url} style={{textDecoration: 'none'}} target="_blank">
-            <Card.Img onMouseOver={mouseHover}
+            <Card.Img
             top width="100%" height="auto"
-            className={imageStyles}
+            className="expand"
             src={`https://covers.openlibrary.org/b/id/${book.cover}-L.jpg`} />
             <Card.Body className="card-text">
-              <ListGroup>
-              <ListGroup.Item>
+              {/* <ListGroup>
+              <ListGroup.Item> */}
                 <Card.Text>
                 Title: {book.title}
                 </Card.Text>
-                </ListGroup.Item>
-                <ListGroup.Item>
+                {/* </ListGroup.Item>
+                <ListGroup.Item> */}
                   <Card.Text>
                   First published year: {book.first_publish_year}
                   </Card.Text>
-                </ListGroup.Item>
-              </ListGroup>
+                {/* </ListGroup.Item>
+              </ListGroup> */}
             </Card.Body>
          </Card.Link>
           </Card>

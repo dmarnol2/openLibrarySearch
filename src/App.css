@@ -61,3 +61,13 @@
   color: #282c34;
   text-decoration: none !important;
 }
+
+.expand:hover {
+  position:relative;
+  top:-25px;
+  left:-35px;
+  width:300px;
+  height:auto;
+  display:block;
+  z-index:999;
+}
