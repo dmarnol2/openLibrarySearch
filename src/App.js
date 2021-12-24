@@ -9,15 +9,25 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [books, setBooks] = useState([]);
+  const [imageStyles, setImageStyles] = useState({
+    transition: "all 1.5s",
+    transform: "scale(1)",
+    marginLeft: "300px"
+ });   
+
+  const mouseHover = event => {
+    setImageStyles({
+      transform: "scale(2)",
+      marginLeft: "300px"
+  });
+  }
 
   const onSubmitHandler = event => {
     event.preventDefault();
-    fetch(`https://openlibrary.org/search.json?author=${searchTerm}`,
-      {mode: 'no-cors'})
+    fetch(`https://openlibrary.org/search.json?author=${searchTerm}`)
     .then(response => {
       return response.json(); })
     .then((data) => {
-      console.log(data.numFound);
       const transformedBooks = data.docs.map(
         bookData => {
           return {
@@ -43,7 +53,7 @@ function App() {
   return (
     <div className='App'>
         <header className="App-header">
-          <p>Open Library Search</p>
+          <p>Open Library search</p>
         <form onSubmit={onSubmitHandler}>
           <input type="text" onChange={searchTermHandler} value={searchTerm}></input>
           <button>search</button>
@@ -57,8 +67,11 @@ function App() {
             // border={variant.toLowerCase()}
             key={i}
           >
-          <Card.Link href={book.url} rel="noreferrer noopener" style={{textDecoration: 'none'}}>
-            <Card.Img top width="100%" height="auto" src={`https://covers.openlibrary.org/b/isbn/${book.cover}-L.jpg`} />
+          <Card.Link href={book.url} style={{textDecoration: 'none'}} target="_blank">
+            <Card.Img onMouseOver={mouseHover}
+            top width="100%" height="auto"
+            className={imageStyles}
+            src={`https://covers.openlibrary.org/b/id/${book.cover}-L.jpg`} />
             <Card.Body className="card-text">
               <ListGroup>
               <ListGroup.Item>
