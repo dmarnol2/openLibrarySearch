@@ -1,32 +1,22 @@
 import React from 'react';
-import {useState, useEffect} from 'react';
-import './App.css';
-import Card from 'react-bootstrap/Card';
-import { CardGroup, Container, ListGroup, Row } from 'react-bootstrap';
+import {useState} from 'react';
 import BarChart from './BarChart';
+import BookCovers from './BookCovers';
 import "bootstrap/dist/css/bootstrap.min.css";
+import './App.css';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setNextPage] = useState(1);
   const [books, setBooks] = useState([]);
+  const [showBooks, setShowBooks] = useState(false);
+  const [showChart, setShowChart] = useState(false);
 
-  const testData = [
-    { name: "a", val: 100 },
-    { name: "b", val: 132 },
-    { name: "c", val: 58 },
-    { name: "d", val: 122 },
-    { name: "e", val: 99 },
-    { name: "f", val: 75 }
-  ];
+  const numberOfBars = 7
 
-  const [chartData, setChartData] = useState(testData);
+  const [chartData, setChartData] = useState(Array.from(Array(numberOfBars), () => []));
   const maxResults = 200;
   const chartHeight = maxResults + 20;
-  const barWidth = 50;
-  const barMargin = 15;
-  const numberofBars = chartData.length;
-  let width = numberofBars * (barWidth + barMargin);
 
   const nextPageHandler = event => {
     event.preventDefault();
@@ -50,15 +40,56 @@ function App() {
             url: `https://openlibrary.org/${bookData.key}`
           }
         });
+
+      // need to filter books on year published and create array or arrays
       setBooks(transformedBooks);
       const nextPage = page + 1;
       setNextPage(nextPage);
+      const res = transformedBooks.map( sortedBook => {
+        const year = sortedBook.first_publish_year;
+
+        switch (true) {
+          case (year < 1920):
+            chartData[0].push(sortedBook);
+            break;
+          case (year >= 1920 && year < 1940):
+            chartData[1].push(sortedBook);
+            break;
+          case (year >= 1940 && year < 1960):
+            chartData[2].push(sortedBook);
+            break;
+          case (year >= 1960 && year < 1980):
+            chartData[3].push(sortedBook);
+            break;
+          case (year >= 1980 && year < 2000):
+            chartData[4].push(sortedBook);
+            break;
+          case (year >= 2000 && year < 2020):
+            chartData[5].push(sortedBook);
+            break;
+          case (year >= 2020 && year < 2040):
+            chartData[6].push(sortedBook);
+            break;
+          default:
+            console.log("search results outside date range");
+            break;
+        }
+        setChartData(() => setChartData(chartData));
+        setShowChart(() => setShowChart(true));
+      }
+    );
     });
   }
 
   const searchTermHandler = event => {
     setSearchTerm(event.target.value);
   }
+
+  const showBooksHandle = () => {
+    console.log("show books handle");
+    setShowBooks(true);
+    }
+
 
   return (
     <div className='App'>
@@ -70,50 +101,14 @@ function App() {
         </form>
       </header>
       <div>
-        <p className="legend">
-          <span className="search-term-frequency">Search Term Frequency</span>
-        </p>
+        {showChart &&
         <BarChart
-          height={chartHeight}
-          width={width}
-          chartData={chartData}>
-        </BarChart>
-        <button onClick={nextPageHandler}>search</button>
+          chartData={chartData}
+          showBooksHandle={showBooksHandle}
+          />}
+          {showChart && <button onClick={nextPageHandler}>fetch more results</button>}
       </div>
-      {/* style button placement */}
-      {/* <button onClick={nextPageHandler}>search</button> */}
-      <Container fluid className="App py-2 overflow-hidden">
-        <Row className="card-example d-flex flex-row flex-nowrap overflow-auto">
-        {/* <CardGroup> */}
-          {books.map((book, i) => (
-            <Card body outline color="dark" className="mx-2 my-2"
-              key={i}>
-              <Card.Link href={book.url} style={{textDecoration: 'none'}} target="_blank">
-                <Card.Img
-                  top width="100%" height="auto"
-                  className="expand"
-                  src={`https://covers.openlibrary.org/b/id/${book.cover}-L.jpg`} />
-                <Card.Body className="card-text">
-                  {/* <ListGroup>
-                  <ListGroup.Item> */}
-                    <Card.Text>
-                    {/* Title: {book.title} */}
-                    {book.title}
-                    </Card.Text>
-                    {/* </ListGroup.Item>
-                    <ListGroup.Item> */}
-                      {/* <Card.Text>
-                      First published year: {book.first_publish_year}
-                      </Card.Text> */}
-                    {/* </ListGroup.Item>
-                  </ListGroup> */}
-                </Card.Body>
-              </Card.Link>
-            </Card>
-          ))}
-        {/* </CardGroup> */}
-        </Row>
-      </Container>
+      {showBooks && <BookCovers books={books}/>}
     </div>
   );
 }
