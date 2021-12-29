@@ -1,3 +1,9 @@
-svg:hover #rect{
-    background-color: 'green' !important;
+.bar:hover {
+    cursor: hand;
 }
+.bar-text {
+    text-align: center;
+    color: #282c34;
+    font-size: 12px;
+    padding-top: 100px;
+  }

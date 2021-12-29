@@ -1,26 +1,35 @@
-import React from 'react';
-import {useState} from 'react';
+import { useState } from 'react';
 import BarChart from './BarChart';
 import BookCovers from './BookCovers';
 import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
 
 function App() {
-  const [searchTerm, setSearchTerm] = useState('');
+
+  const [books, setDisplayBooks] = useState([]);
+  const [chartData, setChartData] = useState();
   const [page, setNextPage] = useState(1);
-  const [books, setBooks] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [showBooks, setShowBooks] = useState(false);
   const [showChart, setShowChart] = useState(false);
 
   const numberOfBars = 7
 
-  const [chartData, setChartData] = useState(Array.from(Array(numberOfBars), () => []));
-  const maxResults = 200;
-  const chartHeight = maxResults + 20;
-
   const nextPageHandler = event => {
     event.preventDefault();
     onSubmitHandler(event);
+  }
+
+  const buildChart = () => {
+    setChartData(Array.from(Array(numberOfBars), () => []));
+    chartData[0].barDescription = "before 1920";
+    chartData[1].barDescription = "1920 - 1939";
+    chartData[2].barDescription = "1940 - 1959";
+    chartData[3].barDescription = "1960 - 1979";
+    chartData[4].barDescription = "1980 - 1999";
+    chartData[5].barDescription = "2000 - 2019";
+    chartData[6].barDescription = "2020 ++";
+    setChartData(() => setChartData(chartData));
   }
 
   const onSubmitHandler = event => {
@@ -42,7 +51,7 @@ function App() {
         });
 
       // need to filter books on year published and create array or arrays
-      setBooks(transformedBooks);
+      buildChart();
       const nextPage = page + 1;
       setNextPage(nextPage);
       const res = transformedBooks.map( sortedBook => {
@@ -83,14 +92,17 @@ function App() {
 
   const searchTermHandler = event => {
     setSearchTerm(event.target.value);
+    setChartData(() => Array.from(Array(numberOfBars), () => []));
     setNextPage(() => setNextPage(1));
     setShowChart(() => setShowChart (false));
     setShowBooks(() => setShowBooks (false));
   }
 
-  const showBooksHandle = () => {
-    console.log("show books handle");
+  const showBooksHandle = (event) => {
+    setDisplayBooks(() => setDisplayBooks([]));
+    let tempData = chartData[event.target.dataset.id].map(a => { return {...a}});
     setShowBooks(true);
+    setDisplayBooks(() => setDisplayBooks(tempData));
     }
 
 
@@ -104,14 +116,13 @@ function App() {
         </form>
       </header>
       <div>
-        {showChart &&
-        <BarChart
-          chartData={chartData}
-          showBooksHandle={showBooksHandle}
-          />}
-          {showChart && <button onClick={nextPageHandler}>fetch more results</button>}
+        {showChart && <BarChart
+                        chartData={chartData}
+                        showBooksHandle={showBooksHandle}
+                      />}
+        {showChart && <button onClick={nextPageHandler}>fetch more results</button>}
       </div>
-      {showBooks && <BookCovers books={books}/>}
+        {showBooks && <BookCovers books={books}/>}
     </div>
   );
 }

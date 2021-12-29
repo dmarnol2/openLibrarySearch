@@ -1,8 +1,10 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import './Bar.css';
+
 const Bar = props => {
 
     const [fill, setFill] = useState('#4169E1');
+    const resultsText = `${props.height} results`;
 
     const onHoverHandler = event => {
         event.preventDefault();
@@ -15,23 +17,23 @@ const Bar = props => {
     }
 
     return (
-        <>
-            <rect
-            // id or key for each bar, maybe use index
-            id={props.id}
+        <svg
             className="bar"
-            x={props.x}
-            y={props.y}
-            width={props.width}
-            height={props.height}
-            fill={fill}
             onClick={props.onBarClick}
             onMouseOver={onHoverHandler}
-            onMouseLeave={onLeaveHandler}
-            />
-            {/* <text x={} y={}>
-            </text> */}
-        </>
+            onMouseLeave={onLeaveHandler}>
+            <rect
+                data-id={props.id}
+                className="bar"
+                x={props.x}
+                y={props.y}
+                width={props.width}
+                height={props.height}
+                fill={fill}
+                />
+            <text  className = "bar-text" x={props.x + 10}  y={250}>{props.barDescription}</text>
+            <text className = "bar-text" x={props.x + 10}  y={props.y - 15 }>{!!props.height && resultsText}</text>
+        </svg>
     );
 }
   export default Bar;
