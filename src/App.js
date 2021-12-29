@@ -83,6 +83,9 @@ function App() {
 
   const searchTermHandler = event => {
     setSearchTerm(event.target.value);
+    setNextPage(() => setNextPage(1));
+    setShowChart(() => setShowChart (false));
+    setShowBooks(() => setShowBooks (false));
   }
 
   const showBooksHandle = () => {
