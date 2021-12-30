@@ -8,7 +8,7 @@ function App() {
 
   const [books, setDisplayBooks] = useState([]);
   const [chartData, setChartData] = useState();
-  const [page, setNextPage] = useState(1);
+  const [offset, setOffset] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
   const [showBooks, setShowBooks] = useState(false);
   const [showChart, setShowChart] = useState(false);
@@ -34,7 +34,7 @@ function App() {
 
   const onSubmitHandler = event => {
     event.preventDefault();
-    fetch(`https://openlibrary.org/search.json?q=${searchTerm}&page=${page}`)
+    fetch(`https://openlibrary.org/search.json?q=${searchTerm}&limit=20&offset=${offset}`)
     // fetch(`https://openlibrary.org/subjects/${searchTerm}.json`)
     .then(response => {
       return response.json(); })
@@ -50,10 +50,7 @@ function App() {
           }
         });
 
-      // need to filter books on year published and create array or arrays
       buildChart();
-      const nextPage = page + 1;
-      setNextPage(nextPage);
       const res = transformedBooks.map( sortedBook => {
         const year = sortedBook.first_publish_year;
 
@@ -85,6 +82,7 @@ function App() {
         }
         setChartData(() => setChartData(chartData));
         setShowChart(() => setShowChart(true));
+        setOffset(() => setOffset(offset + 20));
       }
     );
     });
@@ -93,7 +91,7 @@ function App() {
   const searchTermHandler = event => {
     setSearchTerm(event.target.value);
     setChartData(() => Array.from(Array(numberOfBars), () => []));
-    setNextPage(() => setNextPage(1));
+    setOffset(() => setOffset(0));
     setShowChart(() => setShowChart (false));
     setShowBooks(() => setShowBooks (false));
   }

@@ -1,5 +1,6 @@
 import Card from 'react-bootstrap/Card';
 import { Container, Row } from 'react-bootstrap';
+import './BookCovers.css';
 
 const BookCovers = props => {
 
