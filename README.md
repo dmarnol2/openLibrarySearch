@@ -2,6 +2,18 @@
 # This app is publicly hosted at:
 https://master.d2lemr0b3ju83h.amplifyapp.com/
 
+# About project:
+This project searches the Open Library archive https://openlibrary.org/ based on a user's search term.
+
+It returns 20 results at a time and allows user to fetch the next batch of 20 results until all results have been returned at which point the fetch button is disabled.
+
+A column chart is generated based on the number of results per 20 year time period. The chart is updated as more results are fetched.
+
+User can click a bar in the chart to get more information. Images of book covers that satisfy the search criteria for that time frame are displayed.
+
+Clicking the book cover navigates user to the book item on the Open Library site.
+
+
 
 # Getting Started with Create React App
 
