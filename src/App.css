@@ -2,17 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 10vh;
@@ -23,43 +12,6 @@
   font-size: calc(10px + 2vmin);
   color: white;
   padding-bottom: 50px;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.card-example {
-  -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-}
-
-.card-example::-webkit-scrollbar {
-  display: none;
-}
-
-.card {
-  position: inherit !important;
-  max-width: 200px !important;
-}
-
-.card-border {
-  border-width: 10px;
-}
-
-.card-text {
-  text-align: left;
-  color: #282c34;
-  text-decoration: none !important;
 }
 
 .expand:hover {
