@@ -5,7 +5,7 @@ import './BookCovers.css';
 const BookCovers = props => {
 
     return (
-        <Container fluid className="overflow-hidden">
+        <Container fluid className="App py-2 overflow-hidden">
         <Row className="d-flex flex-row flex-nowrap overflow-auto">
           {props.books.map((book, i) => (
             <Card body outline color="dark" className="mx-2 my-2"

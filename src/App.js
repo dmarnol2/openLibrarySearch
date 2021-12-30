@@ -8,16 +8,31 @@ function App() {
 
   const [books, setDisplayBooks] = useState([]);
   const [chartData, setChartData] = useState();
+  const [disableButton, setDisableButton] = useState(false);
   const [offset, setOffset] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
   const [showBooks, setShowBooks] = useState(false);
   const [showChart, setShowChart] = useState(false);
+
+  const FETCH_BUTTON_TEXT = 'fetch more results';
+  const END_OF_RESULTS_TEXT = 'end of results';
+  const [buttonText, setButtonText] = useState(FETCH_BUTTON_TEXT);
 
   const numberOfBars = 7
 
   const nextPageHandler = event => {
     event.preventDefault();
     onSubmitHandler(event);
+  }
+
+  const disableFetchButton = () => {
+    console.log('function ran');
+    setButtonText(END_OF_RESULTS_TEXT);
+    setDisableButton(true);
+  }
+
+  const getButtonText = (numResults, startPosition) => {
+   (numResults <= startPosition) && disableFetchButton();
   }
 
   const buildChart = () => {
@@ -39,6 +54,7 @@ function App() {
     .then(response => {
       return response.json(); })
     .then((data) => {
+      getButtonText(data.numFound, data.start)
       const transformedBooks = data.docs.map(
         bookData => {
           return {
@@ -94,6 +110,8 @@ function App() {
     setOffset(() => setOffset(0));
     setShowChart(() => setShowChart (false));
     setShowBooks(() => setShowBooks (false));
+    setButtonText(() => setButtonText(FETCH_BUTTON_TEXT));
+    setDisableButton(() => setButtonText(true));
   }
 
   const showBooksHandle = (event) => {
@@ -118,7 +136,7 @@ function App() {
                         chartData={chartData}
                         showBooksHandle={showBooksHandle}
                       />}
-        {showChart && <button onClick={nextPageHandler}>fetch more results</button>}
+        {showChart && <button onClick={nextPageHandler} disabled={disableButton}>{buttonText}</button>}
       </div>
         {showBooks && <BookCovers books={books}/>}
     </div>
