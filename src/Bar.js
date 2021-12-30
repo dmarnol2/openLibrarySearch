@@ -8,12 +8,12 @@ const Bar = props => {
 
     const onHoverHandler = event => {
         event.preventDefault();
-        setFill('#87CEEB');
+        setFill(() => setFill('#4169E1'));
     }
 
     const onLeaveHandler = event => {
         event.preventDefault();
-        setFill('#4169E1');
+        setFill(() => setFill('#0dcaf0'));
     }
 
     return (

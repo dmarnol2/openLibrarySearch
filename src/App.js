@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Button }  from 'react-bootstrap';
 import BarChart from './BarChart';
 import BookCovers from './BookCovers';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -26,7 +27,6 @@ function App() {
   }
 
   const disableFetchButton = () => {
-    console.log('function ran');
     setButtonText(END_OF_RESULTS_TEXT);
     setDisableButton(true);
   }
@@ -125,10 +125,10 @@ function App() {
   return (
     <div className='App'>
       <header className="App-header">
-        <p>Open Library search</p>
+        <p>Open Library Search</p>
         <form onSubmit={onSubmitHandler}>
-          <input type="text" onChange={searchTermHandler} value={searchTerm}></input>
-          <button>search</button>
+          <input className='input-style' type="text" onChange={searchTermHandler} value={searchTerm}></input>
+          <button className='button-style'>search</button>
         </form>
       </header>
       <div>
@@ -136,7 +136,7 @@ function App() {
                         chartData={chartData}
                         showBooksHandle={showBooksHandle}
                       />}
-        {showChart && <button onClick={nextPageHandler} disabled={disableButton}>{buttonText}</button>}
+        {showChart && <Button variant="outline-info" onClick={nextPageHandler} disabled={disableButton}>{buttonText}</Button>}
       </div>
         {showBooks && <BookCovers books={books}/>}
     </div>

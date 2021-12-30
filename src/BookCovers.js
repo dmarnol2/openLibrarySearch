@@ -6,7 +6,7 @@ const BookCovers = props => {
 
     return (
         <Container fluid className="App py-2 overflow-hidden">
-        <Row className="d-flex flex-row flex-nowrap overflow-auto">
+        <Row className="d-flex flex-row flex-nowrap overflow-auto center">
           {props.books.map((book, i) => (
             <Card body outline color="dark" className="mx-2 my-2"
               key={i}>
@@ -15,11 +15,11 @@ const BookCovers = props => {
                   top width="100%" height="auto"
                   className="expand"
                   src={`https://covers.openlibrary.org/b/id/${book.cover}-L.jpg`} />
-                <Card.Body className="card-text">
+                {/* <Card.Body className="card-text">
                     <Card.Text>
                     {book.title}
                     </Card.Text>
-                </Card.Body>
+                </Card.Body> */}
               </Card.Link>
             </Card>
           ))}
